@@ -8,3 +8,6 @@ class Memo(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
     # モデルインスタンスが保存されるたびにフィールドが現在の日時で自動的に更新
     updated_datetime = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title
