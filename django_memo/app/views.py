@@ -43,3 +43,17 @@ def delete_memo(request, memo_id):
     memo = Memo.objects.get(id=memo_id)
     memo.delete()
     return redirect('app:index')
+
+# メモ更新処理
+def edit_memo(request, memo_id):
+    memo = Memo.objects.get(id=memo_id)
+    if request.method == 'POST':
+        # 内容がフォームに入っている状態で表示するためにinstance=memoを追加
+        # 受け取った情報を元に既存のMemoインスタンスを上書きするようにしている
+        form = MemoForm(request.POST, instance=memo)
+        if form.is_valid():
+            form.save()
+            return redirect('app:index')
+    else:
+        form = MemoForm(instance=memo)
+    return render(request, 'app/edit_memo.html', {'form':form, 'memo':memo})
