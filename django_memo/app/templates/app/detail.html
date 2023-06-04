@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <a href="{% url 'app:index' %}">ホームに戻る</a>
-      </div>
-      
-      <h2>{{ memo.title }}</h2>
-      <div>
-        {{ memo.text | linebreaks | urlize }}
-      </div>
-</body>
+      <a href="{% url 'app:index' %}">ホームに戻る</a>
+    </div>
+
+    <h2>{{ memo.title }}</h2>
+    <div>{{ memo.text | linebreaks | urlize }}</div>
+    {% comment %} memo.pkでは現在のオブジェクトのプライマリーキーを指定している {% endcomment %}
+    <form method="post" action="{% url 'app:delete_memo' memo.pk%}">
+      {% csrf_token %}
+      <button class="btn" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
+    </form>
+  </body>
 </html>

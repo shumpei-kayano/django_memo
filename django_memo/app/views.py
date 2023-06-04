@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Memo
 from .forms import MemoForm
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
 
 
 # トップページの表示
@@ -35,3 +36,10 @@ def new_memo(request):
         '''
         form = MemoForm
     return render(request, 'app/new_memo.html', {'form': form })
+
+# メモ削除処理 POSTアクセスのときのみに実行させる
+@require_POST
+def delete_memo(request, memo_id):
+    memo = Memo.objects.get(id=memo_id)
+    memo.delete()
+    return redirect('app:index')
